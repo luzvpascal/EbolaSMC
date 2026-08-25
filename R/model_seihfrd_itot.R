@@ -1,0 +1,75 @@
+#' @title Differential model for SEIHR
+#' @description
+#' Differential model for SEIHR
+#' @param parameters a vector of parameters. Here parameters must be input in this order beta, betaH, betaFu, sigma, phi, delta, delta2, gammaH, gammaD, gammaI, gammaIH, gammaDH,gammaFu, S0, E0, I0, H0, F0, R0, sigma_likelihood_S0, sigma_likelihood_E0,sigma_likelihood_I0,sigma_likelihood_H0,sigma_likelihood_F0,sigma_likelihood_R0
+#' @param input a vector of inputs (time).
+#' @return a data.frame with SEIR projection over time giving by input
+#' @export
+
+model_seihfrd_itot <- function(parameters, input){
+
+  beta <- parameters[1] #transmission rate from infected
+  betaH <- parameters[2] #transmission rate from hospitals
+  betaFu <- parameters[3] #transmission rate from funerals
+
+  sigma <- parameters[4] # 1/incubation time
+
+  #hospital admissions
+  phi <- parameters[5] #probability of going to the hospital
+  gammaH <- parameters[6] #rate of hospital admissions
+
+  #parameters with D compartement
+  delta <- parameters[7] #case fatality ratio
+  deltaH <- parameters[8] #case fatality ratio in hospital
+
+  gammaDI <- parameters[9] #death rate if not in hospital
+  gammaRI <- gammaDI #recovery rate if survivor not in hospital
+
+  gammaDH <- parameters[10]#gammaDI*gammaH/(gammaH-gammaDI) #death rate if in hospital
+  gammaRH <- gammaDH#gammaDI*gammaH/(gammaH-gammaDI) #recovery rate if in hospital
+
+  #funeral
+  gammaFu <- parameters[11]
+
+
+  # Initial state
+  params <- c(beta=beta,
+              betaH=betaH,
+              betaFu=betaFu,
+
+              sigma=sigma,
+
+              phi=phi,
+
+              gammaH=gammaH,
+
+              delta=delta,
+              gammaDI=gammaDI,
+              gammaRI=gammaRI,
+
+              deltaH=deltaH,
+              gammaDH=gammaDH,
+              gammaRH=gammaRH,
+
+              gammaFu=gammaFu
+  )
+
+  all_names <- c("S","E", "I", "H", "Fu", "R", "RH", "D")
+  initial_state <- parameters[seq_along(all_names)+11]
+  names(initial_state) <- all_names
+
+  initial_state[length(all_names)+1] = initial_state["I"]+initial_state["H"]+initial_state["Fu"]+initial_state["R"]+initial_state["RH"]+initial_state["D"]
+  names(initial_state)[length(all_names)+1] <- "Itot"
+
+  initial_state[length(initial_state)+1] = initial_state["D"]+initial_state["Fu"]
+  names(initial_state)[length(initial_state)] <- "Dinst"
+
+  # Solve
+  output <- deSolve::ode(y = initial_state, times = input,
+                         func = SMCfeatures::diff_model_seihfrd_itot,
+                         parms = params)
+
+  output <- as.data.frame(output)
+  output <- output[,-1]
+  return(output)
+}
