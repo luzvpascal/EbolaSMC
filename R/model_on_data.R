@@ -16,6 +16,7 @@ model_on_data <- function(parameters,
   #Inputs parameters and outputs a simulation
 
   # Simulation details
+  simulation <- list()
   simulation$t_data <- args$input_data
   simulation$y_data <- args$simulate_model(parameters,
                                              simulation$t_data)

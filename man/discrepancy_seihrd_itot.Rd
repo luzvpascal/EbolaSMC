@@ -2,14 +2,14 @@
 % Please edit documentation in R/discrepancy_seihrd_itot.R
 \name{discrepancy_seihrd_itot}
 \alias{discrepancy_seihrd_itot}
-\title{Simulate constraints and calculate discrepancy function for SEIR model}
+\title{Simulate constraints and calculate discrepancy function for SEIHRD model}
 \usage{
-discrepancy_seihrd_itot(parameters, args)
+discrepancy_seihrd_itot(parameters, simulation, args)
 }
 \arguments{
 \item{parameters}{a vector of parameters.}
 
-\item{args}{a list of arguments as defined in the function \link[SMCfeatures]{SMCfeatures}}
+\item{args}{a list of arguments as defined in the function \link[EbolaSMC]{SMCfeatures}}
 }
 \value{
 a list with

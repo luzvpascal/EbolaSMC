@@ -21,7 +21,7 @@ model_seir <- function(parameters, input){
   names(initial_state) <- c("S","E", "I", "R")
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seir,
+                         func = EbolaSMC::diff_model_seir,
                          parms = params)
 
   output <- as.data.frame(output)

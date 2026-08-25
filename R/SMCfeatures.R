@@ -30,17 +30,17 @@ SMCfeatures <- function(upper,
                         lower,
                         simulate_model,
                         calculate_discrepancy,
-                        simulate_data = SMCfeatures::model_on_data,
-                        simulate_plots = SMCfeatures::model_on_data,
+                        simulate_data = EbolaSMC::model_on_data,
+                        simulate_plots = EbolaSMC::model_on_data,
                         input_data=NA,
                         output_data=NA,
-                        calculate_log_likelihood=SMCfeatures::log_likelihood_Gaussian,
+                        calculate_log_likelihood=EbolaSMC::log_likelihood_Gaussian,
                         include_expert_constraints=TRUE,
                         include_data_constraints=TRUE,
-                        sampler=SMCfeatures::uniform_sampler,
-                        trans_f=SMCfeatures::uniform_transform,
-                        trans_finv=SMCfeatures::uniform_transform_inverse,
-                        prior_pdf=SMCfeatures::uniform_pdf_transformed,
+                        sampler=EbolaSMC::uniform_sampler,
+                        trans_f=EbolaSMC::uniform_transform,
+                        trans_finv=EbolaSMC::uniform_transform_inverse,
+                        prior_pdf=EbolaSMC::uniform_pdf_transformed,
                         n_particles=10000,
                         mcmc_trials=10,
                         discrepancy_final=0,
@@ -77,7 +77,7 @@ SMCfeatures <- function(upper,
 
   #model simulation
   args$simulate_model <- simulate_model #inputs (parameters,inputs), returns [simulation]
-  args$simulate_data <- SMCfeatures::model_on_data #inputs (parameters,args,simulation), returns [simulation]
+  args$simulate_data <- EbolaSMC::model_on_data #inputs (parameters,args,simulation), returns [simulation]
 
   #discrepancy
   args$calculate_discrepancy <- calculate_discrepancy
@@ -109,7 +109,7 @@ SMCfeatures <- function(upper,
   # args$n_cores <- n_cores
 
   ### RUN SMC ####
-  outputs <- SMCfeatures::SMC_combined(args,
+  outputs <- EbolaSMC::SMC_combined(args,
                                        n_particles,
                                        mcmc_trials,
                                        a_disc,

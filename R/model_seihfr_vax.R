@@ -51,7 +51,7 @@ model_seihfr_vax <- function(parameters, input){
   names(initial_state) <- c("S","E", "I", "H", "Fu", "R", "V")
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seihfr_vax,
+                         func = EbolaSMC::diff_model_seihfr_vax,
                          parms = params)
 
   output <- as.data.frame(output)

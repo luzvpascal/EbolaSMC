@@ -29,7 +29,7 @@ model_seifr <- function(parameters, input){
   names(initial_state) <- c("S","E", "I", "Fu", "R")
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seifr,
+                         func = EbolaSMC::diff_model_seifr,
                          parms = params)
 
   output <- as.data.frame(output)

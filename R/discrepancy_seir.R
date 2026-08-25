@@ -9,8 +9,7 @@
 #' @export
 #'
 #'
-discrepancy_seir <- function (parameters, args){
-  simulation <- list()
+discrepancy_seir <- function (parameters, simulation, args){
   simulation$t_const <- 0
   simulation$y_const <- 0
 

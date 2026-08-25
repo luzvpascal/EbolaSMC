@@ -4,7 +4,7 @@
 \alias{discrepancy_seir}
 \title{Simulate constraints and calculate discrepancy function for SEIR model}
 \usage{
-discrepancy_seir(parameters, args)
+discrepancy_seir(parameters, simulation, args)
 }
 \arguments{
 \item{parameters}{a vector of parameters.}

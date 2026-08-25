@@ -44,17 +44,18 @@ SMC_combined <- function(args,
   }
   param_vals <- unname(param_vals)
 
+  #simulate model for the likelihood
+  param_sims <- foreach::foreach(i = 1:n_particles) %dopar% {
+    args$simulate_data(param_vals[i,],args)
+  }
+  param_sims_const <- lapply(param_sims, `[[`, 1)
+
   #calculate discrepancy and create simulation list object
   param_disc_sim <- foreach::foreach(i = 1:n_particles) %dopar% {
-    args$calculate_discrepancy(param_vals[i,],args)
+    args$calculate_discrepancy(param_vals[i,],param_sims_const[[i]],args)
   }
   param_sims_const <- lapply(param_disc_sim, `[[`, 1)
   param_disc <- (unlist(lapply(param_disc_sim, `[[`, 2)))
-
-  #simulate model for the likelihood
-  param_sims <- foreach::foreach(i = 1:n_particles) %dopar% {
-    args$simulate_data(param_vals[i,],param_sims_const[[i]],args)
-  }
 
   #calculate likelihood
   param_loglike <- foreach::foreach(i = 1:n_particles) %dopar% {
@@ -114,7 +115,7 @@ SMC_combined <- function(args,
 
     #UPDATE LIKELIHOOD AND REWEIGHT ###################################
     #check effective sample size (ESS) for final posterior (when gamma_t=1)
-    ess_posterior <- SMCfeatures::calc_ess(1,
+    ess_posterior <- EbolaSMC::calc_ess(1,
                                            gamma_t,
                                            param_w_weighted_by_discrepancy_threshold,
                                            param_loglike_weighted_by_discrepancy_threshold)
@@ -123,7 +124,7 @@ SMC_combined <- function(args,
       newgamma <- 1 #sample the posterior
     } else{
       #find the temperature (gamma_t) at which the effective sample size is equal to the threshold ESS
-      f <- function (x, oldgamma, part_w, part_loglike) SMCfeatures::calc_ess(x, oldgamma, part_w, part_loglike)-ESS
+      f <- function (x, oldgamma, part_w, part_loglike) EbolaSMC::calc_ess(x, oldgamma, part_w, part_loglike)-ESS
 
       solution <- stats::uniroot(f, c(gamma_t,1),oldgamma=gamma_t,
                           part_w=param_w_weighted_by_discrepancy_threshold,
@@ -181,8 +182,8 @@ SMC_combined <- function(args,
     doParallel::registerDoParallel(cl)
 
     mcmc_outcome <- foreach::foreach(i=1:n_particles,
-                                     .packages =c('SMCfeatures')) %dopar% {
-                                       SMCfeatures::MCMC_combined(args,
+                                     .packages =c('EbolaSMC')) %dopar% {
+                                       EbolaSMC::MCMC_combined(args,
                                                                   mcmc_trials,
                                                                   param_vals_transformed[i,],
                                                                   cov_matrix,
@@ -217,8 +218,8 @@ SMC_combined <- function(args,
     doParallel::registerDoParallel(cl)
 
     mcmc_outcome <- foreach::foreach(i=1:n_particles,
-                                     .packages =c('SMCfeatures')) %dopar% {
-                                       SMCfeatures::MCMC_combined(args,
+                                     .packages =c('EbolaSMC')) %dopar% {
+                                       EbolaSMC::MCMC_combined(args,
                                                                   mcmc_iters-mcmc_trials,
                                                                   param_vals_transformed[i,],
                                                                   cov_matrix,
@@ -278,9 +279,9 @@ SMC_combined <- function(args,
   param_sims_posterior <- foreach::foreach(i = 1:n_particles) %dopar% {
     args$simulate_plots(posterior[i,],param_sims[[i]],args)
   }
-  param_sims_prior <- foreach::foreach(i = 1:n_particles) %dopar% {
-    args$simulate_plots(prior[i,],param_sims[[i]],args)
-  }
+  # param_sims_prior <- foreach::foreach(i = 1:n_particles) %dopar% {
+  #   args$simulate_plots(prior[i,],param_sims[[i]],args)
+  # }
   parallel::stopCluster(cl)#stop cluster
   rm(cl)
 
@@ -288,7 +289,8 @@ SMC_combined <- function(args,
   return(list(posterior=posterior,
               prior=prior,
               param_loglike=param_loglike,
-              param_sims_posterior=param_sims_posterior,
-              param_sims_prior=param_sims_prior
+              param_sims_posterior=param_sims_posterior
+              # ,
+              # param_sims_prior=param_sims_prior
               ))
 }

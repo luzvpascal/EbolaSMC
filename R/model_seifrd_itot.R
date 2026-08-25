@@ -37,7 +37,7 @@ model_seifrd_itot <- function(parameters, input){
 
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seifrd_itot,
+                         func = EbolaSMC::diff_model_seifrd_itot,
                          parms = params)
 
   output <- as.data.frame(output)

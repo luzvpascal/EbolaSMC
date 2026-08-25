@@ -26,7 +26,7 @@ model_seird <- function(parameters, input){
   names(initial_state) <- names
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seird,
+                         func = EbolaSMC::diff_model_seird,
                          parms = params)
 
   output <- as.data.frame(output)

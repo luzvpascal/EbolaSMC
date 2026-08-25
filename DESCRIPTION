@@ -1,5 +1,5 @@
 Package: EbolaSMC
-Title: What the Package Does (One Line, Title Case)
+Title: Fitting mathematical models for Ebola using Sequential Monte Carlo 
 Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))

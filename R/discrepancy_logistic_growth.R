@@ -14,7 +14,7 @@ discrepancy_logistic_growth <- function(parameters,
   simulation <- list()
   # Simulation details
   simulation$t_const <- c(5, 50)
-  simulation$y_const <- SMCfeatures::model_logistic_growth(parameters,
+  simulation$y_const <- EbolaSMC::model_logistic_growth(parameters,
                                                            simulation$t_const)
   simulation$K <- parameters[2]
   if (args$include_expert_constraints){

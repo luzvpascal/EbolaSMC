@@ -27,7 +27,7 @@ model_seihr_identifiable <- function(parameters, input){
   names(initial_state) <- c("S","E", "I", "H", "R")
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seihr_identifiable,
+                         func = EbolaSMC::diff_model_seihr_identifiable,
                          parms = params)
 
   output <- as.data.frame(output)

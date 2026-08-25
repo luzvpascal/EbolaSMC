@@ -71,7 +71,7 @@ model_seifrd_vax_full <- function(parameters, input){
 
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
-                         func = SMCfeatures::diff_model_seifrd_vax_full,
+                         func = EbolaSMC::diff_model_seifrd_vax_full,
                          parms = params)
 
   output <- as.data.frame(output)
