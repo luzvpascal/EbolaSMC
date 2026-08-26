@@ -10,7 +10,6 @@
 #' y_data: output of simulation on input data
 #' @export
 model_on_data <- function(parameters,
-                         simulation,
                          args){
   # likelihood needs data at all time points
   #Inputs parameters and outputs a simulation

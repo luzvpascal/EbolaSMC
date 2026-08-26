@@ -48,13 +48,12 @@ SMC_combined <- function(args,
   param_sims <- foreach::foreach(i = 1:n_particles) %dopar% {
     args$simulate_data(param_vals[i,],args)
   }
-  param_sims_const <- lapply(param_sims, `[[`, 1)
 
   #calculate discrepancy and create simulation list object
   param_disc_sim <- foreach::foreach(i = 1:n_particles) %dopar% {
-    args$calculate_discrepancy(param_vals[i,],param_sims_const[[i]],args)
+    args$calculate_discrepancy(param_vals[i,],param_sims[[i]],args)
   }
-  param_sims_const <- lapply(param_disc_sim, `[[`, 1)
+  param_sims <- lapply(param_disc_sim, `[[`, 1)
   param_disc <- (unlist(lapply(param_disc_sim, `[[`, 2)))
 
   #calculate likelihood

@@ -44,8 +44,11 @@ MCMC_combined <- function(args,
       next
     }
 
+    #simulate on data
+    sims_prop <- args$simulate_data(prop,args)
+
     #find proposal discrepancy
-    sims_disc_prop <- args$calculate_discrepancy(prop, args)
+    sims_disc_prop <- args$calculate_discrepancy(prop, sims_prop, args)
     sims_prop <- sims_disc_prop[[1]]
     disc_prop <-  sims_disc_prop[[2]]
 
@@ -56,7 +59,6 @@ MCMC_combined <- function(args,
     }
 
     # then the metropolis-hastings ratio is satisfied
-    sims_prop <- args$simulate_data(prop,sims_prop,args)
     log_like_prop  <- args$calculate_log_likelihood(prop,sims_prop,args)
     mh  <- exp(newgamma*(log_like_prop - loglike))
 
