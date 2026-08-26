@@ -4,14 +4,14 @@
 \alias{model_on_data}
 \title{Model simulation on input data}
 \usage{
-model_on_data(parameters, simulation, args)
+model_on_data(parameters, args)
 }
 \arguments{
 \item{parameters}{vector of parameters (growth rate, capacity, initial abundance)}
 
-\item{simulation}{list of simulation arguments, as returned by \link[SMCfeatures]{model_logistic_growth_constraint}}
-
 \item{args}{a list of arguments as defined in \link[SMCfeatures]{SMCfeatures}}
+
+\item{simulation}{list of simulation arguments, as returned by \link[SMCfeatures]{model_logistic_growth_constraint}}
 }
 \value{
 list like object representing simulation outputs

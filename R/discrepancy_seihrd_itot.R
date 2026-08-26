@@ -11,7 +11,7 @@
 discrepancy_seihrd_itot <- function (parameters, simulation, args){
 
   simulation$t_const <- args$output_data$constraint$time #might not start at time 0
-  t_index <- simulation$t_const+1
+  t_index <- which(args$input_data %in% simulation$t_const)
   simulation$y_const <- simulation$y_data[t_index,]
 
   if (args$include_expert_constraints) {
