@@ -29,7 +29,7 @@ model_seihfrd_itot <- function(parameters, input){
   gammaRH <- gammaDH#gammaDI*gammaH/(gammaH-gammaDI) #recovery rate if in hospital
 
   #funeral
-  gammaFu <- parameters[11]
+  gammaFu <- parameters[11]#1/ funeral time
 
 
   # Initial state
@@ -58,7 +58,13 @@ model_seihfrd_itot <- function(parameters, input){
   initial_state <- parameters[seq_along(all_names)+11]
   names(initial_state) <- all_names
 
-  initial_state[length(all_names)+1] = initial_state["I"]+initial_state["H"]+initial_state["Fu"]+initial_state["R"]+initial_state["RH"]+initial_state["D"]
+  initial_state[length(all_names)+1] = initial_state["I"]+
+    initial_state["H"]+
+    initial_state["Fu"]+
+    initial_state["R"]+
+    initial_state["RH"]+
+    initial_state["D"]
+
   names(initial_state)[length(all_names)+1] <- "Itot"
 
   initial_state[length(initial_state)+1] = initial_state["D"]+initial_state["Fu"]

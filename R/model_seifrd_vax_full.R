@@ -25,12 +25,12 @@ model_seifrd_vax_full <- function(parameters, input){
 
   betaFuV <- parameters[11] # infections from vaccindated funeral to non-vax person
   betaVFu <- parameters[12] # infections from unvaccindated funeral to vax person
-  betaVFuVFu <- parameters[13] # infections from vaccindated funeral to vax person
+  betaFuVV <- parameters[13] # infections from vaccindated funeral to vax person
 
   deltaV <- parameters[14] #case fatality ratio vaccinated
 
-  gammaRV <- gammaD #recovery rate
-  gammaDV <- gammaD #death rate
+  gammaRV <- gammaR #recovery rate vaccinated
+  gammaDV <- gammaR #death rate vaccinated
 
 
   # Initial state
@@ -51,7 +51,7 @@ model_seifrd_vax_full <- function(parameters, input){
 
               betaFuV=betaFuV,# infections from vaccindated funeral to non-vax person
               betaVFu=betaVFu, # infections from unvaccindated funeral to vax person
-              betaVFuVFu=betaVFuVFu, # infections from vaccindated funeral to vax person
+              betaFuVV=betaFuVV, # infections from vaccindated funeral to vax person
 
               deltaV=deltaV,
               gammaRV=gammaRV,

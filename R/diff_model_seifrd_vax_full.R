@@ -24,9 +24,9 @@ diff_model_seifrd_vax_full <- function(t, state, pars){
 
 
 
-    dV <- mu*S - betaI*I*V/N  - betaVV*IV*V/N - betaVFu*V*Fu/N  - betaVFuVFu*V*Fu/N
+    dV <- mu*S - betaI*I*V/N  - betaVV*IV*V/N - betaVFu*V*Fu/N  - betaFuVV*V*Fu/N
 
-    dEV <- betaI*I*V/N + betaVV*IV*V/N + betaVFu*V*Fu/N + betaVFuVFu*V*Fu/N- sigma*EV
+    dEV <- betaI*I*V/N + betaVV*IV*V/N + betaVFu*V*Fu/N + betaFuVV*V*Fu/N- sigma*EV
 
     dIV <- sigma*EV - (1-deltaV)*gammaRV*IV - deltaV*gammaDV*IV
 
