@@ -35,7 +35,7 @@ log_likelihood_neg_binomial_seihfrd_itot_partial <- function (parameters, simula
 
   # Gaussian
   sigma_log_likelihood <- parameters[seq_along(names_obs_gaussian)+#each species has its own measurement noise
-                                       11+#9 parameters
+                                       11+#11 parameters
                                        2*length(names_obs_neg_bin)+#4 reporting rate and dispersion parameters
                                        length(names)] #initial conditions
 

@@ -65,6 +65,9 @@ model_seifrd_vax_full <- function(parameters, input){
   initial_state[length(names)+1] = initial_state["I"]+initial_state["R"]+initial_state["D"]
   names(initial_state)[length(names)+1] <- "Itot"
 
+  initial_state[length(initial_state)+1] <- initial_state["D"] + initial_state["Fu"]
+  names(initial_state)[length(initial_state)] <- "Dinst"
+
   #add 0 vaccinated people at the start
   initial_state[length(initial_state)+seq(4)] <- 0
   names(initial_state)[length(initial_state)-seq(3,0)] <- c("V", "EV", "IV", "FuV")

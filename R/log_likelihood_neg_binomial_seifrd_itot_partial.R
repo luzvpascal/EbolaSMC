@@ -16,26 +16,29 @@ log_likelihood_neg_binomial_seifrd_itot_partial <- function (parameters, simulat
 
   parms_rep_rate <- parameters[6+#6 parameters
                                  length(names)+ #initial conditions
-                                 c(1,3) #reporting rate delta Itot and delta Dinst
+                                 seq(1,2*length(names_obs),2) #reporting rate delta_H, delta_RH, delta_Itot and delta_Dtot
   ]
 
   parms_dispersion <- (parameters[6+#6 parameters
                                     length(names)+ #initial conditions
-                                    c(2,4) #dispersion parameter delta Itot and delta Dinst
+                                    seq(2,2*length(names_obs),2) #dispersion parameter delta_H, delta_RH, delta_Itot and delta_Dtot
   ])
 
-  #compute delta_Itot and delta_D for the simulation
+  #compute delta_Itot and delta_Dinst for the simulation
   diff_time <- diff(args$input_data)
-  y_data <- data.frame(delta_Itot=pmax(1e-6,diff(simulation$y_data$Itot)/diff_time))
+  y_data <- data.frame(delta_R=pmax(1e-6,diff(simulation$y_data$R)/diff_time))
   y_data$delta_Dinst <- pmax(1e-6,diff(simulation$y_data$Dinst)/diff_time)
+  y_data$delta_Itot <- pmax(1e-6,diff(simulation$y_data$Itot)/diff_time)
 
   if (args$include_data_constraints) {
     log_likelihood <- c()
-    selected_sp <- c("delta_Itot","delta_Dinst")
-    for (id in seq_along(selected_sp)){
+    names_negbin <- c("delta_R", "delta_Dinst", "delta_Itot")
+    selected_sp_negbin <- which(names_negbin %in% names_obs)
+    for (id in seq_along(selected_sp_negbin)){
+      sp <- selected_sp_negbin[id]
       log_likelihood[id] <- sum(dnbinom(args$output_data[,id],
                                         size=parms_dispersion[id],
-                                        mu=parms_rep_rate[id]*y_data[,id],
+                                        mu=parms_rep_rate[id]*y_data[,sp],
                                         log = TRUE))
     }
     return(sum(log_likelihood))

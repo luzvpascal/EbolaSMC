@@ -21,11 +21,11 @@ model_seihrd_vax_full <- function(parameters, input){
   delta <- parameters[6] #case fatality ratio
   deltaH <- parameters[7] #case fatality ratio in hospital
 
-  gammaDI <- parameters[8] #death rate if not in hospital
-  gammaRI <- gammaDI #recovery rate if survivor not in hospital
+  gammaR <- parameters[8] #death rate if not in hospital
+  gammaD <- gammaR #recovery rate if survivor not in hospital
 
-  gammaDH <- parameters[9]#gammaDI*gammaH/(gammaH-gammaDI) #death rate if in hospital
-  gammaRH <- gammaDH#gammaDI*gammaH/(gammaH-gammaDI) #recovery rate if in hospital
+  gammaDH <- parameters[9]#death rate if in hospital
+  gammaRH <- gammaDH #recovery rate if in hospital
 
   ##################################################
   # vaccination parameters
@@ -48,11 +48,11 @@ model_seihrd_vax_full <- function(parameters, input){
   # vaccinated progression rates
   ##################################################
 
-  gammaRIV <- gammaRI #recovery rate vaccinated
-  gammaDIV <- gammaDI #death rate vaccinated
+  gammaRV <- gammaR #recovery rate vaccinated
+  gammaDV <- gammaR #death rate vaccinated
 
   gammaRHV <- gammaRH #recovery rate vaccinated in hospital
-  gammaDHV <- gammaDH #death rate vaccinated in hospital
+  gammaDHV <- gammaRH #death rate vaccinated in hospital
 
   ##################################################
   # parameter vector
@@ -71,8 +71,8 @@ model_seihrd_vax_full <- function(parameters, input){
     delta=delta,
     deltaH=deltaH,
 
-    gammaDI=gammaDI,
-    gammaRI=gammaRI,
+    gammaR=gammaR,
+    gammaD=gammaD,
 
     gammaDH=gammaDH,
     gammaRH=gammaRH,
@@ -90,8 +90,8 @@ model_seihrd_vax_full <- function(parameters, input){
     deltaV=deltaV,
     deltaHV=deltaHV,
 
-    gammaDIV=gammaDIV,
-    gammaRIV=gammaRIV,
+    gammaDV=gammaDV,
+    gammaRV=gammaRV,
 
     gammaDHV=gammaDHV,
     gammaRHV=gammaRHV
@@ -106,9 +106,7 @@ model_seihrd_vax_full <- function(parameters, input){
     "R","RH","D","DH"
   )
 
-  initial_state <- parameters[
-    seq_along(base_names) + 18
-  ]
+  initial_state <- parameters[seq_along(base_names) + 18]
 
   names(initial_state) <- base_names
 
@@ -147,7 +145,6 @@ model_seihrd_vax_full <- function(parameters, input){
   ##################################################
   # solve ODE
   ##################################################
-
   output <- deSolve::ode(
     y = initial_state,
     times = input,

@@ -22,8 +22,8 @@ model_seihfrd_vax_full <- function(parameters, input){
   delta <- parameters[7]
   deltaH <- parameters[8]
 
-  gammaDI <- parameters[9]
-  gammaRI <- gammaDI
+  gammaD <- parameters[9]
+  gammaR <- gammaD
 
   gammaDH <- parameters[10]
   gammaRH <- gammaDH
@@ -60,8 +60,8 @@ model_seihfrd_vax_full <- function(parameters, input){
   # vaccinated rates
   ##################################################
 
-  gammaDIV <- gammaDI
-  gammaRIV <- gammaRI
+  gammaDV <- gammaD
+  gammaRV <- gammaR
 
   gammaDHV <- gammaDH
   gammaRHV <- gammaRH
@@ -83,8 +83,8 @@ model_seihfrd_vax_full <- function(parameters, input){
     delta = delta,
     deltaH = deltaH,
 
-    gammaDI = gammaDI,
-    gammaRI = gammaRI,
+    gammaD = gammaD,
+    gammaR = gammaR,
 
     gammaDH = gammaDH,
     gammaRH = gammaRH,
@@ -108,8 +108,8 @@ model_seihfrd_vax_full <- function(parameters, input){
     deltaV = deltaV,
     deltaHV = deltaHV,
 
-    gammaDIV = gammaDIV,
-    gammaRIV = gammaRIV,
+    gammaDV = gammaDV,
+    gammaRV = gammaRV,
 
     gammaDHV = gammaDHV,
     gammaRHV = gammaRHV
@@ -153,9 +153,9 @@ model_seihfrd_vax_full <- function(parameters, input){
   # vaccinated compartments start at zero
   ##################################################
 
-  initial_state[length(initial_state)+seq(5)] <- 0
+  initial_state[length(initial_state)+seq(6)] <- 0
 
-  names(initial_state)[length(initial_state)-seq(4,0)] <- c("V","EV", "IV", "HV", "FuV")
+  names(initial_state)[length(initial_state)-seq(5,0)] <- c("V","EV", "IV", "HV", "FuV","Vtot")
 
   ##################################################
   # solve ODE

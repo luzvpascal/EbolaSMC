@@ -12,81 +12,47 @@ diff_model_seihrd_vax_full <- function(t, state, pars){
 
   with(as.list(c(state, pars)), {
 
-    N <- S + E + I + H +
-      V + EV + IV + HV +
-      R + RH + D + DH
+    N <- S + E + I + H + R + RH + D + DH + V + EV + IV + HV
 
     ## unvaccinated susceptible
-
-    dS <- -beta*S*I/N
-    -betaV*S*IV/N
-    -betaH*S*H/N
-    -betaHV*S*HV/N
-    -mu*S
+    dS <- -beta*S*I/N - betaH*S*H/N -betaV*S*IV/N -betaHV*S*HV/N-mu*S
 
     ## unvaccinated exposed
-
-    dE <- beta*S*I/N
-    +betaV*S*IV/N
-    +betaH*S*H/N
-    +betaHV*S*HV/N
-    -sigma*E
+    dE <- beta*S*I/N + betaH*S*H/N + betaV*S*IV/N + betaHV*S*HV/N - sigma*E
 
     ## unvaccinated infectious
-
-    dI <- sigma*E -
-      (phi*gammaH +
-         (1-phi)*delta*gammaDI +
-         (1-phi)*(1-delta)*gammaRI)*I
+    dI <- sigma*E - (phi*gammaH + (1-phi)*delta*gammaD + (1-phi)*(1-delta)*gammaR)*I
 
     ## unvaccinated hospitalized
-
-    dH <- phi*gammaH*I -
-      (deltaH*gammaDH +
-         (1-deltaH)*gammaRH)*H
-
+    dH <- phi*gammaH*I - (deltaH*gammaDH + (1-deltaH)*gammaRH)*H
 
     ####################################################
     ## vaccinated
     ####################################################
+    ## vaccinated susceptible
+    dV <- mu*S - betaI*I*V/N -betaVV*IV*V/N - betaIH*H*V/N-betaHVV*HV*V/N
 
-    dV <- mu*S
-    -betaI*I*V/N
-    -betaVV*IV*V/N
-    -betaIH*H*V/N
-    -betaHVV*HV*V/N
+    ## vaccinated exposed
+    dEV <- betaI*I*V/N + betaVV*IV*V/N + betaIH*H*V/N + betaHVV*HV*V/N - sigma*EV
 
-    dEV <- betaI*I*V/N
-    +betaVV*IV*V/N
-    +betaIH*H*V/N
-    +betaHVV*HV*V/N
-    -sigma*EV
+    ## vaccinated infectious
+    dIV <- sigma*EV - phi*gammaH*IV - (1-phi)*deltaV*gammaDV*IV - (1-phi)*(1-deltaV)*gammaRV*IV
 
-    dIV <- sigma*EV -
-      (phi*gammaH +
-         (1-phi)*deltaV*gammaDI +
-         (1-phi)*(1-deltaV)*gammaRI)*IV
-
-    dHV <- phi*gammaH*IV -
-      (deltaHV*gammaDH +
-         (1-deltaHV)*gammaRH)*HV
-
+    ## vaccinated hospitalized
+    dHV <- phi*gammaH*IV - deltaHV*gammaDH*HV - (1-deltaHV)*gammaRH*HV
 
     ####################################################
     ## outcomes
     ####################################################
 
-    dR <- (1-phi)*(1-delta)*gammaRI*I +
-      (1-phi)*(1-deltaV)*gammaRI*IV
+    dR <- (1-phi)*(1-delta)*gammaR*I + (1-phi)*(1-deltaV)*gammaRV*IV
 
-    dRH <- (1-deltaH)*gammaRH*H +
-      (1-deltaHV)*gammaRH*HV
 
-    dD <- (1-phi)*delta*gammaDI*I +
-      (1-phi)*deltaV*gammaDI*IV
+    dRH <- (1-deltaH)*gammaRH*H + (1-deltaHV)*gammaRH*HV
 
-    dDH <- deltaH*gammaDH*H +
-      deltaHV*gammaDH*HV
+    dD <- (1-phi)*delta*gammaD*I + (1-phi)*deltaV*gammaDV*IV
+
+    dDH <- deltaH*gammaDH*H + deltaHV*gammaDH*HV
 
 
     ####################################################
@@ -97,16 +63,7 @@ diff_model_seihrd_vax_full <- function(t, state, pars){
 
     dDtot <- dD + dDH
 
-    return(
-      list(
-        c(
-          dS,dE,dI,dH,
-          dR,dRH,dD,dDH,
-          dItot,dDtot,
-          dV,dEV,dIV,dHV
-        )
-      )
-    )
+    return(list(c(dS, dE, dI, dH, dR, dRH, dD, dDH, dItot, dDtot, dV, dEV, dIV, dHV)))
 
   })
 
