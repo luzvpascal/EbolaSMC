@@ -63,7 +63,9 @@ diff_model_seihrd_vax_full <- function(t, state, pars){
 
     dDtot <- dD + dDH
 
-    return(list(c(dS, dE, dI, dH, dR, dRH, dD, dDH, dItot, dDtot, dV, dEV, dIV, dHV)))
+    dVtot <- mu*S
+
+    return(list(c(dS, dE, dI, dH, dR, dRH, dD, dDH, dItot, dDtot, dV, dEV, dIV, dHV, dVtot)))
 
   })
 

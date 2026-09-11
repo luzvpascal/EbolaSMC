@@ -54,7 +54,6 @@ diff_model_seihfrd_vax_full <- function(t, state, pars){
 
     dR <- (1-phi)*(1-delta)*gammaR*I + (1-phi)*(1-deltaV)*gammaRV*IV
 
-
     dRH <- (1-deltaH)*gammaRH*H +(1-deltaHV)*gammaRH*HV
 
     dD <- gammaFu*Fu + gammaFu*FuV

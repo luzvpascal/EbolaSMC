@@ -42,16 +42,34 @@ model_seird_vax_full <- function(parameters, input){
               gammaRV=gammaRV,
               gammaDV=gammaDV)
 
-  names <- c("S","E", "I", "R","D")
-  initial_state <- parameters[seq_along(names)+9]
+  all_names_states <- names_states("SEIRD")
+  names <- all_names_states$names
+  names_vax <- all_names_states$names_vax
+
+  all_names_pars <- names_parameters("SEIRD")
+  names_pars <- all_names_pars$names
+  names_pars_vax <- all_names_pars$names_vax
+
+  initial_state <- parameters[seq_along(names)+length(names_pars)+length(names_pars_vax)]
   names(initial_state) <- names
 
   initial_state[length(names)+1] = initial_state["I"]+initial_state["R"]+initial_state["D"]
   names(initial_state)[length(names)+1] <- "Itot"
 
-  #add 0 vaccinated people at the start
-  initial_state[length(initial_state)+seq(3)] <- 0
-  names(initial_state)[length(initial_state)-seq(2,0)] <- c("V", "EV", "IV")
+  #vaccinated people at the start
+  initial_state[length(initial_state)+seq_along(names_vax)] <- parameters[length(names)
+                                                                      +length(names_pars)
+                                                                      +length(names_pars_vax)
+                                                                      +seq_along(names_vax)]
+  names(initial_state)[length(names)+1+seq_along(names_vax)] <- names_vax
+
+  #total vaccinated
+  initial_state[length(initial_state)+1] = sum(parameters[length(names)
+                                                      +length(names_pars)
+                                                      +length(names_pars_vax)
+                                                      +seq_along(names_vax)])
+
+  names(initial_state)[length(initial_state)] <- "Vtot"
 
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,

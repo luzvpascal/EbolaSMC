@@ -36,7 +36,9 @@ diff_model_seihfrd_itot <- function(t, state, pars){
 
     dDinst <- deltaH*gammaDH*H + (1-phi)*delta*gammaDI*I
 
+    dDinstH <- deltaH*gammaDH*H
 
-    return(list(c(dS, dE, dI, dH, dFu, dR, dRH, dD, dItot, dDinst)))
+
+    return(list(c(dS, dE, dI, dH, dFu, dR, dRH, dD, dItot, dDinst, dDinstH)))
   })
 }

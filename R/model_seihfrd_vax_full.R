@@ -119,11 +119,17 @@ model_seihfrd_vax_full <- function(parameters, input){
   # initial conditions
   ##################################################
 
-  all_names <- c("S","E","I","H", "Fu","R","RH","D")
+  all_names_states <- names_states("SEIHFRD")
+  names <- all_names_states$names
+  names_vax <- all_names_states$names_vax
 
-  initial_state <- parameters[seq_along(all_names) + 23 ]
+  all_names_pars <- names_parameters("SEIHFRD")
+  names_pars <- all_names_pars$names
+  names_pars_vax <- all_names_pars$names_vax
 
-  names(initial_state) <- all_names
+  initial_state <- parameters[seq_along(names)+length(names_pars)+length(names_pars_vax)]
+  names(initial_state) <- names
+
 
   ##################################################
   # cumulative incidence
@@ -153,10 +159,19 @@ model_seihfrd_vax_full <- function(parameters, input){
   # vaccinated compartments start at zero
   ##################################################
 
-  initial_state[length(initial_state)+seq(6)] <- 0
+  initial_state[length(initial_state)+seq_along(names_vax)] <- parameters[length(names)
+                                                                      +length(names_pars)
+                                                                      +length(names_pars_vax)
+                                                                      +seq_along(names_vax)]
+  names(initial_state)[length(names)+2+seq_along(names_vax)] <- names_vax
 
-  names(initial_state)[length(initial_state)-seq(5,0)] <- c("V","EV", "IV", "HV", "FuV","Vtot")
+  #total vaccinated
+  initial_state[length(initial_state)+1] = sum(parameters[length(names)
+                                                          +length(names_pars)
+                                                          +length(names_pars_vax)
+                                                          +seq_along(names_vax)])
 
+  names(initial_state)[length(initial_state)] <- "Vtot"
   ##################################################
   # solve ODE
   ##################################################

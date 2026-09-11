@@ -42,6 +42,8 @@ diff_model_seifrd_vax_full <- function(t, state, pars){
 
     dDinst <- delta*gammaD*I+deltaV*gammaDV*IV
 
-    return(list(c(dS, dE, dI, dFu, dR, dD, dItot, dDinst, dV, dEV, dIV, dFuV)))
+    dVtot <- mu*S
+
+    return(list(c(dS, dE, dI, dFu, dR, dD, dItot, dDinst, dV, dEV, dIV, dFuV, dVtot)))
   })
 }

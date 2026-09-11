@@ -35,7 +35,8 @@ diff_model_seird_vax_full <- function(t, state, pars){
 
     dItot <- sigma*E + sigma*EV
 
+    dVtot <- mu*S
 
-    return(list(c(dS, dE, dI, dR, dD, dItot, dV, dEV, dIV)))
+    return(list(c(dS, dE, dI, dR, dD, dItot, dV, dEV, dIV, dVtot)))
   })
 }

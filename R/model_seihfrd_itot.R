@@ -70,6 +70,9 @@ model_seihfrd_itot <- function(parameters, input){
   initial_state[length(initial_state)+1] = initial_state["D"]+initial_state["Fu"]
   names(initial_state)[length(initial_state)] <- "Dinst"
 
+  initial_state[length(initial_state)+1] = 0
+  names(initial_state)[length(initial_state)] <- "DinstH"
+
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
                          func = EbolaSMC::diff_model_seihfrd_itot,

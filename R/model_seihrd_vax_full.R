@@ -101,14 +101,16 @@ model_seihrd_vax_full <- function(parameters, input){
   # initial conditions
   ##################################################
 
-  base_names <- c(
-    "S","E","I","H",
-    "R","RH","D","DH"
-  )
+  all_names_states <- names_states("SEIHRD")
+  names <- all_names_states$names
+  names_vax <- all_names_states$names_vax
 
-  initial_state <- parameters[seq_along(base_names) + 18]
+  all_names_pars <- names_parameters("SEIHRD")
+  names_pars <- all_names_pars$names
+  names_pars_vax <- all_names_pars$names_vax
 
-  names(initial_state) <- base_names
+  initial_state <- parameters[seq_along(names)+length(names_pars)+length(names_pars_vax)]
+  names(initial_state) <- names
 
   ##################################################
   # cumulative incidence
@@ -137,10 +139,19 @@ model_seihrd_vax_full <- function(parameters, input){
   ##################################################
   # vaccinated compartments start at 0
   ##################################################
+  initial_state[length(initial_state)+seq_along(names_vax)] <- parameters[length(names)
+                                                                      +length(names_pars)
+                                                                      +length(names_pars_vax)
+                                                                      +seq_along(names_vax)]
+  names(initial_state)[length(names)+2+seq_along(names_vax)] <- names_vax
 
-  initial_state[length(initial_state)+seq(4)] <- 0
+  #total vaccinated
+  initial_state[length(initial_state)+1] = sum(parameters[length(names)
+                                                          +length(names_pars)
+                                                          +length(names_pars_vax)
+                                                          +seq_along(names_vax)])
 
-  names(initial_state)[length(initial_state)-seq(3,0)] <- c("V", "EV","IV", "HV")
+  names(initial_state)[length(initial_state)] <- "Vtot"
 
   ##################################################
   # solve ODE

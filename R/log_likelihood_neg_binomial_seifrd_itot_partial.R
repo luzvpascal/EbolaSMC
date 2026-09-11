@@ -9,30 +9,32 @@
 #'
 log_likelihood_neg_binomial_seifrd_itot_partial <- function (parameters, simulation, args) {
   n_data <- nrow(args$output_data)
-  names_obs <- names(args$output_data) #delta_Itot and delta_D
+  names_obs <- names(args$output_data) #delta_Itot and delta_Dinst
 
-  names <- c("S","E","I","Fu","R","D")
-  all_names <- c("S","E","I","Fu","R","D","Itot","Dinst")
+  all_names_states <- names_states("SEIFRD")
+  names <- all_names_states$names
+  all_names <- all_names_states$all_names
 
-  parms_rep_rate <- parameters[6+#6 parameters
+  names_pars <- names_parameters("SEIFRD")$names
+
+  parms_rep_rate <- parameters[length(names_pars)+#6 parameters
                                  length(names)+ #initial conditions
                                  seq(1,2*length(names_obs),2) #reporting rate delta_H, delta_RH, delta_Itot and delta_Dtot
   ]
 
-  parms_dispersion <- (parameters[6+#6 parameters
+  parms_dispersion <- (parameters[length(names_pars)+#6 parameters
                                     length(names)+ #initial conditions
                                     seq(2,2*length(names_obs),2) #dispersion parameter delta_H, delta_RH, delta_Itot and delta_Dtot
   ])
 
   #compute delta_Itot and delta_Dinst for the simulation
   diff_time <- diff(args$input_data)
-  y_data <- data.frame(delta_R=pmax(1e-6,diff(simulation$y_data$R)/diff_time))
+  y_data <- data.frame(delta_Itot=pmax(1e-6,diff(simulation$y_data$Itot)/diff_time))
   y_data$delta_Dinst <- pmax(1e-6,diff(simulation$y_data$Dinst)/diff_time)
-  y_data$delta_Itot <- pmax(1e-6,diff(simulation$y_data$Itot)/diff_time)
 
   if (args$include_data_constraints) {
     log_likelihood <- c()
-    names_negbin <- c("delta_R", "delta_Dinst", "delta_Itot")
+    names_negbin <- c("delta_Itot", "delta_Dinst")
     selected_sp_negbin <- which(names_negbin %in% names_obs)
     for (id in seq_along(selected_sp_negbin)){
       sp <- selected_sp_negbin[id]
