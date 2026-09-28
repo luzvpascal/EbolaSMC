@@ -16,6 +16,16 @@ names_parameters <- function(model_type){
                    "betaI",
                    "betaVV",
                    "deltaV")
+
+    names_tti <- c("beta_hat",
+                   "c",
+                   "sigma",
+                   "delta",
+                   "gamma",
+                   "gammaD",
+                   "theta",
+                   "eta"
+                   )
   } else if (model_type=="SEIFRD"){
     names <- c("beta",
                "betaFu",

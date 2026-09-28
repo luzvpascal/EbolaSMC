@@ -10,6 +10,7 @@
 diff_model_seifrd_tti <- function(t, state, pars){
   with(as.list(c(state, pars)), {
 
+    #with contact tracing
     N <- Su + Eu + Iu + Ru + Du + Sd + Ed + Id + Rd + Dd
 
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/diff_model_seifr.R
 \name{diff_model_seifr}
 \alias{diff_model_seifr}
-\title{Differential model for SEIHR}
+\title{Differential model for SEIFR}
 \usage{
 diff_model_seifr(t, state, pars)
 }
