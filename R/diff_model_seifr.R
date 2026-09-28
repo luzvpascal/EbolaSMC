@@ -1,4 +1,4 @@
-#' @title Differential model for SEIHR
+#' @title Differential model for SEIFR
 #' @description
 #' Differential model for SEIHR
 #' @param t time of prediction
