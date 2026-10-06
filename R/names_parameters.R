@@ -18,7 +18,6 @@ names_parameters <- function(model_type){
                    "deltaV")
 
     names_tti <- c("beta",
-                   # "c",
                    "sigma",
                    "delta",
                    "gammaR",
@@ -67,6 +66,7 @@ names_parameters <- function(model_type){
                "deltaH",
                "gammaR",
                "gammaRH")
+
     names_vax <- c("mu",
                    "betaV",
                    "betaI",
@@ -77,8 +77,26 @@ names_parameters <- function(model_type){
                    "deltaV",
                    "deltaHV")
 
+    names_tti <- c("beta",
+                   "betaH",
+                   "sigma",
+                   "phi",
+                   "gammaH",
+
+                   "delta",
+                   "deltaH",
+
+                   "gammaR",
+                   "gammaRI",
+                   "gammaRH",
+
+                   "theta",
+                   "eta"
+    )
+
   return(list(names=names,
-              names_vax=names_vax))
+              names_vax=names_vax,
+              names_tti=names_tti))
   } else if (model_type=="SEIHFRD"){
     names <- c("beta",
                "betaH",

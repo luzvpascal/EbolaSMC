@@ -17,6 +17,7 @@ names_states <- function(model_type){
     all_names_tti <- c("Su","Eu","Iu","Ru","Du",
                         "Id","Rd","Dd",
                         "Idtot","Dtot")
+
     return(list(names=names,
                 all_names=all_names,
                 names_vax=names_vax,
@@ -35,9 +36,20 @@ names_states <- function(model_type){
     all_names <- c("S", "E", "I", "H", "R", "RH", "D", "DH", "Itot", "Dtot")
     names_vax <- c("V", "EV","IV", "HV")
 
+    names_tti <- c("Su","Eu","Iu","Ru","Du",
+                   "Id","Rc","Dc","H","RH","DH")
+
+    all_names_tti <- c("Su","Eu","Iu","Ru","Du",
+                       "Id","Rc","Dc","H","RH","DH",
+                       "Idtot")
+
     return(list(names=names,
                 all_names=all_names,
-                names_vax=names_vax))
+                names_vax=names_vax,
+
+                names_tti=names_tti,
+                all_names_tti=all_names_tti
+                ))
   } else if (model_type=="SEIHFRD"){
     names <- c("S", "E", "I", "H", "Fu", "R", "RH", "D")
     all_names <- c("S", "E", "I", "H", "Fu", "R", "RH", "D", "Itot", "Dinst", "DinstH")

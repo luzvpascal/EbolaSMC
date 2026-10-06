@@ -10,11 +10,11 @@
 diff_model_seihrd_tti <- function(t, state, pars){
   with(as.list(c(state, pars)), {
 
-    N <- Su + Eu + Iu + Ru + Du + Id + Rd + Dd
+    N <- Su + Eu + Iu + Ru + Du + Id + Rc + Dc + H + RH + DH
 
 
     # dSu <- - beta_hat*c*Su*(Iu+Id)/N
-    dSu <- - beta*Su*(Iu+Id+Ic)/N - betaH*H*Su/N
+    dSu <- - beta*Su*(Iu+Id)/N - betaH*H*Su/N
 
     # dEu <- beta_hat*c*Su*(Iu+Id)/N - sigma*Eu
     dEu <- beta*Su*(Iu+Id)/N + betaH*H*Su/N - sigma*Eu
@@ -29,7 +29,7 @@ diff_model_seihrd_tti <- function(t, state, pars){
     #detected
     dId <- theta*eta*Iu - phi*gammaH*Id - (1-phi)*delta*gammaDI*Id - (1-phi)*(1-delta)*gammaRI*Id
 
-    #back in the community
+    #doesnt go to the hospital and dies or recovers in the community
     dRc <- (1-phi)*(1-delta)*gammaRI*Id #no data
 
     dDc <- (1-phi)*delta*gammaDI*Id #no data

@@ -30,8 +30,7 @@ model_seird_tti <- function(parameters, input){
 
   #detectable infectious
   names(initial_state) <- names
-  initial_state[length(names)+1] = initial_state["Iu"]+initial_state["Ru"]+initial_state["Du"]+
-                                    initial_state["Id"]+initial_state["Rd"]+initial_state["Dd"]
+  initial_state[length(names)+1] = initial_state["Id"]+initial_state["Rd"]+initial_state["Dd"]
 
   names(initial_state)[length(names)+1] <- "Idtot"
 
