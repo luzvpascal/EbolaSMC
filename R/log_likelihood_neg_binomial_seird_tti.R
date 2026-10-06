@@ -8,8 +8,8 @@
 #' @export
 #'
 log_likelihood_neg_binomial_seird_tti <- function (parameters, simulation, args) {
-  n_data <- nrow(args$output_data)
-  names_obs <- names(args$output_data) #delta_Du, delta_ItotD, delta_Dtot
+  n_data <- nrow(args$output_data) #dSu, dEu, dIu, dRu, dDu, dId, dRd, dDd, dIdtot,dDtot
+  names_obs <- names(args$output_data) #delta_Du, delta_Rd, delta_Dd, delta_Idtot, delta_Dtot, delta_Dud
 
   all_names_states <- names_states("SEIRD")
   names <- all_names_states$names_tti
@@ -31,18 +31,24 @@ log_likelihood_neg_binomial_seird_tti <- function (parameters, simulation, args)
   #compute delta_Itot and delta_Dtot for the simulation
   diff_time <- diff(args$input_data)
   y_data <- data.frame(delta_Du=pmax(1e-6,diff(simulation$y_data$Du)/diff_time))
+  y_data$delta_Rd <- pmax(1e-6,diff(simulation$y_data$Rd)/diff_time)
+  y_data$delta_Dd <- pmax(1e-6,diff(simulation$y_data$Dd)/diff_time)
   y_data$delta_Idtot <- pmax(1e-6,diff(simulation$y_data$Idtot)/diff_time)
   y_data$delta_Dtot <- pmax(1e-6,diff(simulation$y_data$Dtot)/diff_time)
 
   if (args$include_data_constraints) {
     log_likelihood <- c()
-    names_negbin <- c("delta_Du", "delta_Idtot","delta_Dtot")
+    names_negbin <- c("delta_Du",
+                      "delta_Rd",
+                      "delta_Dd",
+                      "delta_Idtot",
+                      "delta_Dtot")
     selected_sp_negbin <- which(names_negbin %in% names_obs)
     for (id in seq_along(selected_sp_negbin)){
       sp <- selected_sp_negbin[id]
-      indexes_not_NA <- which(!is.na(args$output_data$neg_bin[,id]))
+      indexes_not_NA <- which(!is.na(args$output_data[,id]))
 
-      log_likelihood[id] <- sum(dnbinom(round(args$output_data$neg_bin[indexes_not_NA,id]),
+      log_likelihood[id] <- sum(dnbinom(round(args$output_data[indexes_not_NA,id]),
                                                 size=parms_dispersion[id],
                                                 mu=parms_rep_rate[id]*y_data[indexes_not_NA,sp],
                                                 log = TRUE))

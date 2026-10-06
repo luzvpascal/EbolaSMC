@@ -17,15 +17,28 @@ names_parameters <- function(model_type){
                    "betaVV",
                    "deltaV")
 
-    names_tti <- c("beta_hat",
-                   "c",
+    names_tti <- c("beta",
+                   # "c",
                    "sigma",
                    "delta",
-                   "gamma",
+                   "gammaR",
                    "gammaD",
                    "theta",
                    "eta"
                    )
+    # names_tti <- c("beta_hat",
+    #                "c",
+    #                "sigma",
+    #                "delta",
+    #                "gammaR",
+    #                "gammaD",
+    #                "theta",
+    #                "eta"
+    #                )
+
+  return(list(names=names,
+              names_vax=names_vax,
+              names_tti=names_tti))
   } else if (model_type=="SEIFRD"){
     names <- c("beta",
                "betaFu",
@@ -41,6 +54,9 @@ names_parameters <- function(model_type){
                    "betaVFu",
                    "betaFuVV",
                    "deltaV")
+
+  return(list(names=names,
+              names_vax=names_vax))
   } else if (model_type=="SEIHRD"){
     names <- c("beta",
                "betaH",
@@ -60,6 +76,9 @@ names_parameters <- function(model_type){
                    "betaHVV",
                    "deltaV",
                    "deltaHV")
+
+  return(list(names=names,
+              names_vax=names_vax))
   } else if (model_type=="SEIHFRD"){
     names <- c("beta",
                "betaH",
@@ -85,8 +104,8 @@ names_parameters <- function(model_type){
                    "betaFuVV",
                    "deltaV",
                    "deltaHV")
-  }
 
   return(list(names=names,
               names_vax=names_vax))
+  }
 }

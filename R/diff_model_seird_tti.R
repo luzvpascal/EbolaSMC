@@ -13,16 +13,17 @@ diff_model_seird_tti <- function(t, state, pars){
     N <- Su + Eu + Iu + Ru + Du + Id + Rd + Dd
 
 
-    dSu <- - beta_hat*c*Su*(Iu+Id)/N
+    # dSu <- - beta_hat*c*Su*(Iu+Id)/N
+    dSu <- - beta*Su*(Iu+Id)/N
 
-    dEu <- beta_hat*c*Su*(Iu+Id)/N - sigma*Eu
+    # dEu <- beta_hat*c*Su*(Iu+Id)/N - sigma*Eu
+    dEu <- beta*Su*(Iu+Id)/N - sigma*Eu
 
-    dIu <- sigma*Eu - (1-theta)*gamma*Iu - theta*eta*Iu
+    dIu <- sigma*Eu - (1-theta)*gammaR*Iu - theta*eta*Iu
 
-    dRu <- (1-theta)*(1-delta)*gamma*Iu
+    dRu <- (1-theta)*(1-delta)*gammaR*Iu
 
-    dDu <- (1-theta)*delta*gamma*Iu
-
+    dDu <- (1-theta)*delta*gammaR*Iu
 
     #detectable
     dId <- theta*eta*Iu - gammaD*Id
@@ -31,12 +32,11 @@ diff_model_seird_tti <- function(t, state, pars){
 
     dDd <- delta*gammaD*Id
 
-
     #total detectable
     dIdtot <- theta*eta*Iu
     dDtot <- dDu+dDd
 
-    return(list(c(dSu, dEu, dIu, dRu, dDu, dId, dRd, dDd, dIdtot,dDtot)))
+    return(list(c(dSu, dEu, dIu, dRu, dDu, dId, dRd, dDd, dIdtot, dDtot)))
 
     #with contact tracing
     # N <- Su + Eu + Iu + Ru + Du + Sd + Ed + Id + Rd + Dd

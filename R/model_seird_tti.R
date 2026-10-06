@@ -9,14 +9,21 @@
 model_seird_tti <- function(parameters, input){
 
   # Parameters
-  params <- c(beta_hat = parameters[1],
-              c = parameters[2],
-              sigma = parameters[3],
-              delta = parameters[4],
-              gamma = parameters[5],
-              gammaD = parameters[6],
-              theta = parameters[7],
-              eta = parameters[8])
+  # params <- c(beta_hat = parameters[1],
+  #             c = parameters[2],
+  #             sigma = parameters[3],
+  #             delta = parameters[4],
+  #             gammaR = parameters[5],
+  #             gammaD = parameters[6],
+  #             theta = parameters[7],
+  #             eta = parameters[8])
+  params <- c(beta = parameters[1],
+              sigma = parameters[2],
+              delta = parameters[3],
+              gammaR = parameters[4],
+              gammaD = parameters[5],
+              theta = parameters[6],
+              eta = parameters[7])
 
   names <- names_states("SEIRD")$names_tti
   initial_state <- parameters[seq_along(names)+length(params)]
