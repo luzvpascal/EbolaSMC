@@ -45,10 +45,12 @@ model_seihrd_tti <- function(parameters, input){
               gammaH=gammaH,
 
               delta=delta,
+              deltaH=deltaH,
+
+              gammaR=gammaR,
               gammaDI=gammaDI,
               gammaRI=gammaRI,
 
-              deltaH=deltaH,
               gammaDH=gammaDH,
               gammaRH=gammaRH,
 
@@ -60,12 +62,11 @@ model_seihrd_tti <- function(parameters, input){
   pars_names <- names_parameters("SEIHRD")$names_tti
 
   initial_state <- parameters[seq_along(names)+length(pars_names)]
-  names(initial_state) <- all_names
+  names(initial_state) <- names
 
 
-  initial_state[length(all_names)+1] = initial_state["Id"]+initial_state["Rc"]+initial_state["Dc"]+initial_state["H"]+initial_state["RH"]+initial_state["DH"]
-  names(initial_state)[length(all_names)+1] <- "Idtot"
-
+  initial_state[length(names)+1] = initial_state["Id"]+initial_state["Rc"]+initial_state["Dc"]+initial_state["H"]+initial_state["RH"]+initial_state["DH"]
+  names(initial_state)[length(names)+1] <- "Idtot"
 
   # Solve
   output <- deSolve::ode(y = initial_state, times = input,
